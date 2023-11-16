@@ -22,11 +22,11 @@ window.onload = function() {
 
         game.rootScene.backgroundColor = '#CCFFFF';
 
-        var scoretext = createScore(game);
+        var clScore = 130;
+        var scoretext = createScore(game, clScore);
 
         var time = 10;
         var timeLimit = createTime(game, time);
-        var clScore = 130;
 
         // ゲーム本体の定期処理
         var count = 0;

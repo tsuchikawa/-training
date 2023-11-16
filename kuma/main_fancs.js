@@ -113,9 +113,9 @@ function setScale(chara) {
 }
 
 // スコアを表示
-function createScore(game) {
+function createScore(game, clearScore) {
     var scoretext = new Label();
-    scoretext.text = "Score :" + game.score;
+    scoretext.text = 'SCORE: ' + game.score + "/ " + clearScore;
     scoretext.x = 170;
     scoretext.y = 10;
     scoretext.font = '16px sans-serif';
