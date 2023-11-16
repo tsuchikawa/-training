@@ -116,7 +116,7 @@ function setScale(chara) {
 function createScore(game) {
     var scoretext = new Label();
     scoretext.text = "Score :" + game.score;
-    scoretext.x = 220;
+    scoretext.x = 170;
     scoretext.y = 10;
     scoretext.font = '16px sans-serif';
 
@@ -139,8 +139,8 @@ function createTime(game, time) {
 }
 
 // ゲームスコアに得点を追加
-function addScoreText(scoretext, game) {
-    scoretext.text = 'SCORE: ' + game.score;
+function addScoreText(scoretext, game, clearScore) {
+    scoretext.text = 'SCORE: ' + game.score + "/ " + clearScore;
 }
 
 // 残り時間の設定
@@ -180,12 +180,34 @@ function gameOverScene(game) {
     resultScore.x = 100;
     resultScore.y = 200;
 
-    overImage.addEventListener('touchstart', function() {
+    // メニュー
+    var menu = new Label();
+    menu.text = "メニューへ戻る";
+    menu.font = '26px sans-serif';
+    menu.color = 'white';
+    menu.x = 65;
+    menu.y = 270;
+
+    // リトライ
+    var retry = new Label();
+    retry.text = "リトライ";
+    retry.font = '26px sans-serif';
+    retry.color = 'white';
+    retry.x = 105;
+    retry.y = 240;
+
+    menu.addEventListener('touchstart', function() {
+        window.location.href = "../index.html"
+    });
+    retry.addEventListener('touchstart', function() {
             location.reload();
     });
 
     scene.addChild(overImage);
     scene.addChild(resultScore);
+    scene.addChild(menu);
+    scene.addChild(retry);
+
     return scene;
 }
 
@@ -208,12 +230,34 @@ function gameClearScene(game) {
             resultScore.x = 100;
             resultScore.y = 200;
 
-            lastScene.addEventListener('touchstart', function() {
+            // メニュー
+            var menu = new Label();
+            menu.text = "メニューへ戻る";
+            menu.font = '26px sans-serif';
+            menu.color = 'white';
+            menu.x = 65;
+            menu.y = 270;
+
+            // リトライ
+            var retry = new Label();
+            retry.text = "リトライ";
+            retry.font = '26px sans-serif';
+            retry.color = 'white';
+            retry.x = 105;
+            retry.y = 240;
+
+            menu.addEventListener('touchstart', function() {
+                window.location.href = "../index.html"
+            });
+
+            retry.addEventListener('touchstart', function() {
                 location.reload();
             });
 
             lastScene.addChild(resultScore);
             lastScene.addChild(clearImage);
+            lastScene.addChild(menu);
+            lastScene.addChild(retry);
 
             return lastScene;
 }

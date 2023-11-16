@@ -52,6 +52,18 @@ addEventListener( 'load', function() {
         descriptionLabel.moveTo( 105, 200 );	  //ラベルの位置
         scene.addChild( descriptionLabel );  //ラベルをsceneに追加
 
+        // メニュー
+        var menu = new Label();
+        menu.text = "メニューへ戻る";
+        menu.font = "16px 'Russo One', sans-serif";
+        menu.color = 'white';
+        menu.x = 105;
+        menu.y = 270;
+        scene.addChild(menu);
+        menu.addEventListener('touchstart', function() {
+            window.location.href = "../index.html"
+        });
+
         /**aボタンかタップでメインゲームへ進む**/
         scene.addEventListener( 'abuttondown', goToTheGame );
         scene.addEventListener( 'touchstart', goToTheGame );
@@ -136,7 +148,7 @@ addEventListener( 'load', function() {
             scene.addChild( scoreLabel );
 
             /**プレイヤーのHPが0未満ならばシーンを切り替える**/
-            if ( player.hp === 0 ) game.replaceScene( game.gameOverScene() );
+            if ( player.hp === 0 ) game.pushScene( game.gameOverScene() );
         }
 
         /**アナログパッドの表示**/
@@ -161,19 +173,36 @@ addEventListener( 'load', function() {
         /**スコアを表示**/
         var gameOverScoreLabel = new Label();
         gameOverScoreLabel.text = 'SCORE : ' + score;
-        gameOverScoreLabel.moveTo( 180, 250 );
+        gameOverScoreLabel.moveTo( 180, 220 );
         gameOverScoreLabel.font = "16px 'Russo One', sans-serif";	//フォントの設定
         gameOverScoreLabel.color = 'white';
         scene.addChild( gameOverScoreLabel );
 
-        /**aボタンかタップでメインゲームに戻る**/
-        scene.addEventListener( 'abuttondown', returnGame );
-        scene.addEventListener( 'touchstart', returnGame );
-        function returnGame() {
+        // メニュー
+        var menu = new Label();
+        menu.text = "メニューへ戻る";
+        menu.font = "16px 'Russo One', sans-serif";
+        menu.color = 'white';
+        menu.x = 105;
+        menu.y = 270;
+        scene.addChild(menu);
+        menu.addEventListener('touchstart', function() {
+            window.location.href = "../index.html"
+        });
+
+        // リトライ
+        var retry = new Label();
+        retry.text = "リトライ";
+        retry.font = "16px 'Russo One', sans-serif";
+        retry.color = 'white';
+        retry.x = 130;
+        retry.y = 250;
+        scene.addChild(retry);
+        retry.addEventListener('touchstart', function() {
             init();		//初期化
             game.replaceScene( game.mainScene() );		//シーンの切り替え
             game.removeEventListener( 'abuttondown', returnGame );
-        }
+        });
 
         return scene;
     }
