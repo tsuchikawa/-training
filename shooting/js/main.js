@@ -148,7 +148,7 @@ addEventListener( 'load', function() {
             scene.addChild( scoreLabel );
 
             /**プレイヤーのHPが0未満ならばシーンを切り替える**/
-            if ( player.hp === 0 ) game.pushScene( game.gameOverScene() );
+            if ( player.hp <= 0 ) game.pushScene( game.gameOverScene() );
         }
 
         /**アナログパッドの表示**/
@@ -220,7 +220,7 @@ var Player = Class.create( Sprite, {
     },
     onenterframe: function() {
         this.frame = 1;  //プレイヤーの画像を左から2番目に変更
-        var speed = 14;  //プレイヤーの動く速度
+        var speed = 5;  //プレイヤーの動く速度
 
         /**キー入力があった時のプレイヤーの移動**/
         if (game.input.left) {
