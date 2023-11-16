@@ -26,7 +26,7 @@ window.onload = function() {
 
         var time = 10;
         var timeLimit = createTime(game, time);
-        var clScore = 150;
+        var clScore = 130;
 
         // ゲーム本体の定期処理
         var count = 0;
