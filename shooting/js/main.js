@@ -288,7 +288,6 @@ var Player = Class.create( Sprite, {
                 score += 5;  //進めば進むほどスコアが加算される
             }
             else this.x += pad.vx * speed;
-            this.x += pad.vx * speed;
             this.y += pad.vy * speed;
 
             /**X方向にゆっくり移動しているときは歩かせる**/
