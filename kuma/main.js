@@ -17,7 +17,10 @@ window.onload = function() {
     game.onload = function() { // ゲームの準備が整ったらメインの処理を実行します。
 
         createKuma(game);
+        createKuma(game);
         createGirlKuma(game);
+        createGirlKuma(game);
+        createWhiteKuma(game);
         createWhiteKuma(game);
 
         game.rootScene.backgroundColor = '#CCFFFF';
@@ -35,7 +38,6 @@ window.onload = function() {
             if(count%fps == 0){
                 time--;
             }
-            //time--;
 
             setTimeLeft(timeLimit, time);
             addScoreText(scoretext, game, clScore);
