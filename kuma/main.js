@@ -9,6 +9,7 @@ window.onload = function() {
     var fps = 30;
     game.fps = fps; // frames（フレーム）per（毎）second（秒）：ゲームの進行スピードを設定しています。-- 1秒間に画面を何回書き換えるか？
     game.preload('chara1.gif', 'end.png', 'clear.png'); // pre（前）-load（読み込み）：ゲームに使う素材をあらかじめ読み込んでおきます。
+    game.preload('wood.gif');
 
     // クマをタッチした時に加算されるスコア
     game.score = 0;
@@ -23,9 +24,13 @@ window.onload = function() {
         createWhiteKuma(game);
         createWhiteKuma(game);
 
+        for(var i=0; i<15; i++){
+            createWood(game);
+        }
+
         game.rootScene.backgroundColor = '#CCFFFF';
 
-        var clScore = 130;
+        var clScore = 100;
         var scoretext = createScore(game, clScore);
 
         var time = 10;
@@ -50,10 +55,3 @@ window.onload = function() {
 
     game.start(); // ゲームをスタートさせます。
 };
-
-function sleep(waitMsec) {
-    var startMsec = new Date();
-  
-    // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
-    while (new Date() - startMsec < waitMsec);
-}

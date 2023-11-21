@@ -87,6 +87,15 @@ function createGirlKuma(game) {
     game.rootScene.addChild(girlKuma);
 }
 
+// 木の生成
+function createWood(game) {
+    var nudNum = 288;
+    var wood = new Sprite(46, 60);
+    setScaleXY(wood, nudNum);
+    wood.image = game.assets['wood.gif'];
+    game.rootScene.addChild(wood);
+}
+
 // ScaleX, ScaleYの設定
 function setScale(chara) {
     // scaleX Sprite 1 or -1 左右の向きを変更
