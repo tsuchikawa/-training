@@ -25,6 +25,7 @@ Array.prototype.remove = function( elm ) {
 //Webページが読み込まれたら
 addEventListener( 'load', function() {
     game = new Game(320,320);  //ゲームオブジェクトの作成
+    game.fps = 40;
     game.preload( 'img/character/player.png', 'img/character/enemy.png', 'img/bg/sky.png', 'img/bg/rock.png', 'img/bg/field.png', 'img/bullet.png' );  //画像をプリロード
 
     //ゲームオブジェクトが読み込まれたら
@@ -108,8 +109,8 @@ addEventListener( 'load', function() {
         /**シーン更新ごとに呼び出す**/
         scene.onenterframe = function() {
 
-            //15フレーム毎に敵を生成する
-            if (game.frame % 15 === 0) {
+            //20フレーム毎に敵を生成する
+            if (game.frame % 20 === 0) {
 
                 /**敵キャラの作成**/
                 enemy = new Enemy();
@@ -126,12 +127,14 @@ addEventListener( 'load', function() {
             //画面をタップされた時
             this.addEventListener( 'touchstart', hitABullet );
 
-            //スプライトの足の位置でソート
+            //スプライトの足の位置で***
+            
             spriteList.sort( function( _spriteA, _spriteB ) {
                 if ( _spriteA.y + _spriteA.height > _spriteB.y + _spriteB.height ) return 1;
                 if ( _spriteA.y + _spriteA.height < _spriteB.y + _spriteB.height ) return -1;
                 return 0;
             } );
+            
 
             /**プレイヤーや敵などのスプライトを表示する**/
             for(var i=0; i<spriteList.length; ++i) {
@@ -140,6 +143,7 @@ addEventListener( 'load', function() {
 
             /*プレイヤーのHPを表示**/
             hpLabel.text = 'HP : ' + player.hp;
+            //hpLabel.text = player.age;
             scene.addChild( hpLabel );
 
             /**スコアを表示**/
@@ -220,17 +224,29 @@ var Player = Class.create( Sprite, {
     },
     onenterframe: function() {
         this.frame = 1;  //プレイヤーの画像を左から2番目に変更
-        var speed = 5;  //プレイヤーの動く速度
+        var speed = 2.5;  //プレイヤーの動く速度
 
         /**キー入力があった時のプレイヤーの移動**/
         if (game.input.left) {
             this.scaleX = -1;  //キャラ画像をX方向に反転
-            this.frame = this.age%2+2;  //アニメーション
+            if(this.age%8 < 4){
+                this.frame = 2;
+                this.y = this.y + 0.5;
+            }else {
+                this.frame = 3;
+                this.y = this.y - 0.5;
+            }
             this.x -= speed;
         }
         if (game.input.right) {
             this.scaleX = 1;  //キャラ画像をX方向に反転
-            this.frame = this.age%2+2;  //アニメーション
+            if(this.age%8 < 4){
+                this.frame = 2;
+                this.y = this.y + 0.5;
+            }else {
+                this.frame = 3;
+                this.y = this.y - 0.5;
+            }
 
             //プレイヤーのX座標が、半分の位置より大きい時
             if ( this.x > 160 - this.width/2 ) {
@@ -256,17 +272,35 @@ var Player = Class.create( Sprite, {
 
         }
         if (game.input.up) {
-            this.frame = this.age%2+2;  //アニメーション
+            if(this.age%8 < 4){
+                this.frame = 2;
+                this.y = this.y + 0.5;
+            }else {
+                this.frame = 3;
+                this.y = this.y - 0.5;
+            }
             this.y -= speed;
         }
         if (game.input.down) {
-            this.frame = this.age%2+2;  //アニメーション
+            if(this.age%8 < 4){
+                this.frame = 2;
+                this.y = this.y + 0.5;
+            }else {
+                this.frame = 3;
+                this.y = this.y - 0.5;
+            }
             this.y += speed;
         }
 
         /**アナログパッドでのプレイヤーの移動**/
         if ( pad.isTouched ) {
-            this.frame = this.age%2+2;  //アニメーション
+            if(this.age%8 < 4){
+                this.frame = 2;
+                this.y = this.y + 0.5;
+            }else {
+                this.frame = 3;
+                this.y = this.y - 0.5;
+            }
             //プレイヤーのX座標が、半分の位置より大きい時
             if ( this.x > 160 - this.width / 2 && pad.vx > 0) {
                 field1.x -= pad.vx * speed;	//地面をスクロール
@@ -294,7 +328,14 @@ var Player = Class.create( Sprite, {
             if ( Math.abs( pad.vx ) < 0.5 ) {
                 if ( this.age%8 < 4 ) this.frame = 0;
                 else this.frame = 1;
-            } else this.frame = this.age%2+2;
+            }else if(this.age%8 < 4){
+                this.frame = 2;
+                this.y = this.y + 0.5;
+            }else {
+                this.frame = 3;
+                this.y = this.y - 0.5;
+            }
+            //this.frame = this.age%2+2;
 
             /**キャラが横に移動した時、キャラ画像をX方向に反転**/
             if ( pad.vx < 0 ) this.scaleX = -1;
@@ -331,14 +372,30 @@ var Enemy = Class.create( Sprite, {
         Sprite.call( this, 38, 47 );  //Spriteクラスのメソッドを、thisでも使えるようにする
         this.image = game.assets[ 'img/character/enemy.png' ];  //スプライトの画像ファイルを指定
         var rnd = Math.random() * ( 170 );  //0〜169までのランダムな数値を作成
-        this.moveTo( 330, 100 + rnd );  //敵キャラの初期位置
+        this.moveTo( 330, 100+rnd );  //敵キャラの初期位置
     },
     onenterframe: function() {
-        this.x -= 3;  //敵キャラの移動
+        //敵キャラの移動  X軸
+        this.x = this.x - 1;
 
+        //敵キャラの移動　Y軸
+        //this.y = this.y + 1;
+        
         /**敵キャラのアニメーション**/
-        if (this.age%8 < 4) this.frame = 0;
-        else this.frame = 1;
+        if (this.age%16 < 8) {
+            this.frame = 0;
+            this.y = this.y + 0.5;
+        }else {
+            this.frame = 1;
+            this.y = this.y - 0.5;
+        }
+
+        /**敵キャラのジグザグアニメーション**/
+        if (this.age%200 < 100) {
+            //this.y = this.y + 1.5;
+        }else {
+            //this.y = this.y - 1.5;
+        }
 
         /**敵のX座標が-50以下になったり、存在が0になったら削除**/
         if ( this.x < -50 || this.existence === 0) {
